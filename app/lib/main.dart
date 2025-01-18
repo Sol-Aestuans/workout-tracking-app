@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/index.dart';
+import 'ui/index.dart';
 
 void main() {
   runApp(const MyApp());
