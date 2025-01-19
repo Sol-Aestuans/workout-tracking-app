@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:workout_app/models/exercise_model';
+
+class ExerciseViewModel extends ChangeNotifier {
+
+  // TODO - refactor the list of strings to use the exercise model
+  // TODO - add sqlite
+  
+  List<String> _exercises = <String>[];
+  bool _loading = false;
+
+  bool get loading => _loading;
+  List<String> get exercises => _exercises.toList();
+  
+  void setLoading(bool loading) async {
+    _loading = loading;
+    notifyListeners();
+  }
+
+  void add() {
+    _exercises.add("Exercise ${exercises.length + 1}");
+    notifyListeners();
+  }
+}

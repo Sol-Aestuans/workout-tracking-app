@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'package:workout_app/view_models/exercise_view_model';
 class WorkoutBuilderPage extends StatefulWidget {
   const WorkoutBuilderPage({super.key});
 
@@ -10,17 +11,11 @@ class WorkoutBuilderPage extends StatefulWidget {
 }
 
 class _WorkoutBuilderPageState extends State<WorkoutBuilderPage> {
-  
-  List<String> exercises = [];
-
-  void addExercise() {
-    setState(() {
-      exercises.add("Exercise ${exercises.length + 1}");
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    ExerciseViewModel exerciseViewModel = context.watch<ExerciseViewModel>();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -35,16 +30,20 @@ class _WorkoutBuilderPageState extends State<WorkoutBuilderPage> {
       body: Column(
         children: [
           ElevatedButton(
-            onPressed: addExercise,
+            onPressed: () => exerciseViewModel.add(),
             child: Text("New exercise")
           ),
           Expanded(
-            
-            child: ListView.builder(
-              itemCount: exercises.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(exercises[index]),
+            child: ListenableBuilder(
+              listenable: exerciseViewModel,
+              builder: (BuildContext context, Widget? child) {
+                final List<String> exercises = exerciseViewModel.exercises;
+
+                return ListView.builder(
+                  itemBuilder: (BuildContext context, int index) => ListTile(
+                    title: Text(exercises[index]),
+                  ),
+                  itemCount: exercises.length,
                 );
               }
             ),
